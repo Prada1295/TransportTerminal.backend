@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>TransportTerminal.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TransportTerminal.Domain\TransportTerminal.Domain.csproj" />
+    <ProjectReference Include="..\TransportTerminal.Application\TransportTerminal.Application.csproj" />
+    <ProjectReference Include="..\TransportTerminal.Infrastructure\TransportTerminal.Infrastructure.csproj" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

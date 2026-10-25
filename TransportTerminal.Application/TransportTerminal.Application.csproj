@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RootNamespace>TransportTerminal.Application</RootNamespace></PropertyGroup><ItemGroup><ProjectReference Include="..\TransportTerminal.Domain\TransportTerminal.Domain.csproj" /></ItemGroup></Project>
