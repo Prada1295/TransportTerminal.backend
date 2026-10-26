@@ -57,9 +57,10 @@ public sealed class TerminalDbContext(
             e.ToTable("vehicles", t =>
                 t.HasCheckConstraint(
                     "ck_vehicles_capacity_positive",
-                    "capacity > 0"));
+                    "\"Capacity\" > 0"));
 
             e.HasKey(x => x.Id);
+            e.HasAlternateKey(x => new { x.TerminalId, x.Id });
             e.Property(x => x.Plate).HasMaxLength(16).IsRequired();
             e.Property(x => x.Type).HasConversion<string>().HasMaxLength(24);
             e.Property(x => x.Status).HasConversion<string>().HasMaxLength(24);
@@ -83,9 +84,10 @@ public sealed class TerminalDbContext(
             e.ToTable("routes", t =>
                 t.HasCheckConstraint(
                     "ck_routes_estimated_minutes_positive",
-                    "estimated_minutes > 0"));
+                    "\"EstimatedMinutes\" > 0"));
 
             e.HasKey(x => x.Id);
+            e.HasAlternateKey(x => new { x.TerminalId, x.Id });
             e.Property(x => x.Origin).HasMaxLength(160).IsRequired();
             e.Property(x => x.Destination).HasMaxLength(160).IsRequired();
 
@@ -99,6 +101,7 @@ public sealed class TerminalDbContext(
         {
             e.ToTable("bays");
             e.HasKey(x => x.Id);
+            e.HasAlternateKey(x => new { x.TerminalId, x.Id });
             e.Property(x => x.Code).HasMaxLength(32).IsRequired();
             e.HasIndex(x => new { x.TerminalId, x.Code }).IsUnique();
 
@@ -120,18 +123,21 @@ public sealed class TerminalDbContext(
                 .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne<Vehicle>()
-                .WithMany()
-                .HasForeignKey(x => x.VehicleId)
-                .OnDelete(DeleteBehavior.Restrict);
+    .WithMany()
+    .HasForeignKey(x => new { x.TerminalId, x.VehicleId })
+    .HasPrincipalKey(x => new { x.TerminalId, x.Id })
+    .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne<Route>()
                 .WithMany()
-                .HasForeignKey(x => x.RouteId)
+                .HasForeignKey(x => new { x.TerminalId, x.RouteId })
+                .HasPrincipalKey(x => new { x.TerminalId, x.Id })
                 .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne<Bay>()
                 .WithMany()
-                .HasForeignKey(x => x.BayId)
+                .HasForeignKey(x => new { x.TerminalId, x.BayId })
+                .HasPrincipalKey(x => new { x.TerminalId, x.Id })
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -147,9 +153,10 @@ public sealed class TerminalDbContext(
                 .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne<Vehicle>()
-                .WithMany()
-                .HasForeignKey(x => x.VehicleId)
-                .OnDelete(DeleteBehavior.Restrict);
+    .WithMany()
+    .HasForeignKey(x => new { x.TerminalId, x.VehicleId })
+    .HasPrincipalKey(x => new { x.TerminalId, x.Id })
+    .OnDelete(DeleteBehavior.Restrict);
 
             e.HasIndex(x => new
             {
